@@ -1,1 +1,72 @@
+1) Hash / Frequency Counting (ABC-B)
+Distinct Count
 
+Given N and A (length N), output how many distinct values appear.
+
+Input
+
+N
+A0 A1 ... A(N-1)
+
+
+Constraints: 1 ≤ N ≤ 2e5, |Ai| ≤ 1e9
+Output: one integer
+
+2) Two Pointers (ABC-C)
+Shortest Subarray With Sum ≥ K
+
+Given N, K, and an array A of positive integers, find the minimum length of a contiguous subarray whose sum is at least K. If none, output -1.
+
+Input
+
+N K
+A0 A1 ... A(N-1)
+
+
+Constraints: 1 ≤ N ≤ 2e5, 1 ≤ Ai ≤ 1e9, 1 ≤ K ≤ 1e18
+Output: one integer
+
+3) Greedy (ABC-B/C)
+Minimum Coins
+
+Given an amount X and coin values A, B, C (positive integers), you may use any number of each coin. Output the minimum number of coins to make exactly X, or -1 if impossible.
+
+Input
+
+X A B C
+
+
+Constraints: 1 ≤ X ≤ 1e6, 1 ≤ A,B,C ≤ 1e6
+Output: one integer
+
+(Hint-free note: greedy may or may not work; you must decide.)
+
+4) Binary Search on Answer (ABC-C)
+Minimum Capacity
+
+You have N packages with weights W[i] (positive). Ship them in order using at most D days. Each day you can ship a consecutive group with total weight ≤ C. Find the minimum C that makes it possible.
+
+Input
+
+N D
+W0 W1 ... W(N-1)
+
+
+Constraints: 1 ≤ N ≤ 2e5, 1 ≤ D ≤ N, 1 ≤ Wi ≤ 1e9
+Output: minimum C
+
+5) Graph BFS (ABC-C)
+Shortest Path in Grid
+
+Given an H×W grid of . and #, find the shortest path length from S to G moving 4-directionally. Output -1 if unreachable.
+
+Input
+
+H W
+grid...
+
+
+Grid contains exactly one S and one G.
+
+Constraints: 1 ≤ H,W ≤ 1000
+Output: distance as an integer
