@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N;
+    cin >> N;
+
+    vector<int> idx;      // Problem B indices
+    int peak_count = 0;   // Problem A answer
+
+    long long left, mid, right;
+    cin >> left;
+
+    // Problem B: i=0 is always a new maximum
+    idx.push_back(0);
+    long long cur_max = left;
+
+    if (N == 1) {
+        cout << 0 << "\n";
+        cout << 0 << "\n";
+        return 0;
+    }
+
+    cin >> mid;
+    if (mid > cur_max) {
+        idx.push_back(1);
+        cur_max = mid;
+    }
+
+    // Now read right one-by-one and evaluate the middle as a peak
+    for (int i = 2; i < N; i++) {
+        cin >> right;
+
+        // Problem B: strictly new maximum at i
+        if (right > cur_max) {
+            idx.push_back(i);
+            cur_max = right;
+        }
+
+        // Problem A: check if mid is a peak (index i-1)
+        if (left < mid && mid > right) {
+            peak_count++;
+        }
+
+        left = mid;
+        mid = right;
+    }
+
+    // Output A
+    cout << peak_count << "\n";
+
+    // Output B (space-separated in one line)
+    for (int i = 0; i < (int)idx.size(); i++) {
+        if (i) cout << " ";
+        cout << idx[i];
+    }
+    cout << "\n";
+}
