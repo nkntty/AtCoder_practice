@@ -1,5 +1,5 @@
 1) Hash / Frequency Counting (ABC-B)
-Distinct Count
+Distinct Count   ( e.g. {1,1, 2, 3,3,3}, distinct values{1,2,3}-> 3,    unique values{2}->1)
 
 Given N and A (length N), output how many distinct values appear.
 
