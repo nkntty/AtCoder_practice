@@ -1,0 +1,56 @@
+Problem A (ABC-easy) — Count Peaks
+
+You are given an integer N and an array A of length N.
+
+Count how many indices i satisfy:
+
+1 ≤ i ≤ N-2
+
+A[i] is strictly greater than both neighbors: A[i-1] < A[i] and A[i] > A[i+1]
+
+Input
+-------------------
+N
+A0 A1 ... A(N-1)
+------------------
+
+Output
+-------------
+the count
+-------------
+Constraints
+
+3 ≤ N ≤ 2×10^5
+
+-10^9 ≤ Ai ≤ 10^9
+
+
+
+Problem B (ABC-B/C-ish) — First Time Reaching a New Maximum
+
+You are given N and an array A of length N.
+Let M(i) = max(A[0..i]).
+
+Output all indices i (0-based) such that:
+
+A[i] == M(i) and
+
+A[i] > M(i-1) (i.e., it is a strictly new maximum)
+
+For i = 0, treat it as a new maximum automatically.
+
+Input
+-------------
+N
+A0 A1 ... A(N-1)
+--------------
+Output
+Print the indices in increasing order, separated by spaces.
+If none (won’t happen because i=0 always qualifies), print nothing but a newline.
+
+Constraints
+1 ≤ N ≤ 2×10^5
+-10^9 ≤ Ai ≤ 10^9
+
+
+
