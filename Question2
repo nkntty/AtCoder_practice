@@ -12,7 +12,7 @@ A0 A1 ... A(N-1)
 Constraints: 1 ≤ N ≤ 2e5, |Ai| ≤ 1e9
 Output: one integer
 
-2) Two Pointers (ABC-C)
+2) Two-pointer problem (ABC-C)
 Shortest Subarray With Sum ≥ K
 
 Given N, K, and an array A of positive integers, find the minimum length of a contiguous subarray whose sum is at least K. If none, output -1.
