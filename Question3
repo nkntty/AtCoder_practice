@@ -15,14 +15,14 @@ int knapSack(int W, const vector<int>& weights, const vector<int>& values, int n
 
    vector<vector<int>>dp(n+1, vector<int>(W+1, 0));
 for(int i=1; i<=n; ++i){
-  for(int w=1; w<=W; ++w){
-    if(w >= wights[i-1]){
-       int includeItem=dp[i-1][w-wights[i-1]] + values[i-1];
-       int excludeItem=dp[i-1][w];
+  for(int w=0; w<=W; ++w){
+    if(w >= wights[i]){
+       int includeItem=dp[i][w-wights[i]] + values[i];
+       int excludeItem=dp[i][w];
 
        dp[i][w]=max(includeItem, excludeItem);
     }else
-    dp[i][w]=dp[i-1][w];
+    dp[i][w]=max(dp[i][w], dp[i-1][w]);
   }
 
 }
