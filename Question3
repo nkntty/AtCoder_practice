@@ -1,4 +1,9 @@
-//Q1 There are N items, weighing w[i]. Within the capacity of W, find the maximum value of sum of w[i] //
+//Q1 KnapSack Problem//
+There are N items, weighing w[i]. Within the capacity of W, find the maximum value of sum of w[i] 
+
+//Q2 Backward DP//
+
+//Q2 Forward DP//
 
 
 
