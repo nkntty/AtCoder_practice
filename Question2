@@ -114,7 +114,7 @@ long long left = lo, right = hi;
 while (left < right) {
     long long mid = left + (right - left) / 2;
     if (can(mid)) right = mid;
-    else left = mid + 1;
+    else left = mid + 1;    //☑️ Because the current mid is invalid, we should consider mid+1
 }
 
 cout << left << "\n";
