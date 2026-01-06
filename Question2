@@ -196,3 +196,6 @@ k	dr[k]	dc[k]	move
 So when we loop k = 0..3, we are trying: down, up, right, left
 
 
+continueとbreakが異なる点は、breakが繰り返し処理を強制終了するのに対して、continueは以降の処理を中断し、繰り返し処理の先頭に戻ることです
+
+
