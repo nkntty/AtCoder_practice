@@ -70,3 +70,122 @@ Grid contains exactly one S and one G.
 
 Constraints: 1 ≤ H,W ≤ 1000
 Output: distance as an integer
+
+
+
+
+
+
+________________________________________________________________________________________________________________________________________________________________________________
+//model answer of (4)//
+#include <bits/stdc++.h> using namespace std;
+int main() { ios::sync_with_stdio(false); cin.tie(nullptr);
+int N, D;
+cin >> N >> D;
+vector<long long> W(N);
+
+long long lo = 0;      // minimum possible capacity (will become max weight)
+long long hi = 0;      // maximum possible capacity (sum of weights)
+for (int i = 0; i < N; i++) {
+    cin >> W[i];
+    lo = max(lo, W[i]);
+    hi += W[i];
+}
+
+//1. ラムダ式の宣言部分 auto can = [&](long long C) -> bool { ... }; auto can: can という名前で関数を定義しています。 [&]: 参照キャプチャ。関数の外側で定義されている変数（N, W, D など）を、関数内部でそのまま使うことを示します。 (long long C): 引数です。ここでは「トラックの最大積載量（容量）」を受け取ります。 -> bool: この関数が true または false を返すことを明示しています。 Summary of Capture Modes []: Capture nothing. [=]: Capture everything by value (makes a copy; original is safe). [&]: Capture everything by reference (efficient, no copying, allows modification). [x, &y]: Specifically capture x by value and y by reference. 特に競技プログラミング（AtCoderなど）では「二分探索の判定関数」を作る際の鉄板のテンプレートです。 最後に、なぜこの書き方が選ばれるのかを整理すると： 引数がスッキリする: W（荷物の配列）や D（制限日数）をいちいち関数の引数に渡さなくて済むので、can(mid) と呼び出すだけで済み、コードが短くなります。 型推論 (auto) が楽: ラムダ式の型はコンパイラしか知らない複雑な型になるため、人間が書かずに auto に任せるのがルールです。 カプセル化: その問題（関数内）だけで使うロジックを外に漏らさずに記述できるため、変数名の衝突などを防げます。 //
+auto can = [&](long long C) -> bool {
+    int days = 1;
+    long long cur = 0;
+
+    for (int i = 0; i < N; i++) {
+        if (cur + W[i] <= C) {
+            cur += W[i];
+        } else {
+            days++;
+            cur = W[i];
+            if (days > D) return false;
+        }
+    }
+    return true;
+};
+
+// Binary search for the smallest C such that can(C) is true
+long long left = lo, right = hi;
+while (left < right) {
+    long long mid = left + (right - left) / 2;
+    if (can(mid)) right = mid;
+    else left = mid + 1;
+}
+
+cout << left << "\n";
+return 0;
+
+}
+Key idea // To search the answer C by binary method, we first set the bool function// If a capacity C works (you can ship within D days), then any larger capacity also works. That “works / doesn’t work” property is monotonic, which is exactly when you use binary search on the answer.
+So we:
+Write can(C) = can we ship with capacity C in ≤ D days? (O(N))
+Binary search the smallest C that makes can(C) true.
+
+
+
+________________________________________________________________________________________________________________________________________________________________________________
+//model answer of (5)//
+#include <bits/stdc++.h> using namespace std;
+int main() { ios::sync_with_stdio(false); cin.tie(nullptr);
+int H, W;
+cin >> H >> W;
+vector<string> grid(H);
+for (int i = 0; i < H; i++) cin >> grid[i];
+
+int sr = -1, sc = -1, gr = -1, gc = -1;
+for (int r = 0; r < H; r++) {
+    for (int c = 0; c < W; c++) {
+        if (grid[r][c] == 'S') { sr = r; sc = c; }
+        if (grid[r][c] == 'G') { gr = r; gc = c; }
+    }
+}
+
+// dist[r][c] = minimum steps from S to (r,c), -1 means unvisited
+// H rows, W columns, all elements initialized to -1.  vector<vector<int>> dist(H, vector<int>(W, -1));//
+vector<vector<int>> dist(H, vector<int>(W, -1));
+queue<pair<int,int>> q;
+
+//pair<> はmapと似ている. .first, ,secondを使う
+dist[sr][sc] = 0;
+q.push({sr, sc});
+
+int dr[4] = {1, -1, 0, 0};
+int dc[4] = {0, 0, 1, -1};
+
+while (!q.empty()) {
+    auto [r, c] = q.front();
+    q.pop();
+
+    for (int k = 0; k < 4; k++) {
+        int nr = r + dr[k];
+        int nc = c + dc[k];
+
+        if (nr < 0 || nr >= H || nc < 0 || nc >= W) continue; // outside
+        if (grid[nr][nc] == '#') continue;                    // wall (continue: 現在実行中のループ反復を途中で終了し、次の反復へ制御を移します。)
+        if (dist[nr][nc] != -1) continue;                     // already visited
+
+        dist[nr][nc] = dist[r][c] + 1;
+        q.push({nr, nc});
+    }
+}
+
+cout << dist[gr][gc] << "\n"; // -1 if unreachable
+return 0;
+
+}
+Key idea BFS is different from DFS in a way that closest vertices are visited before others. We mainly traverse vertices level by level In short, marking {0,1,2,...} visited elements and adding to queue, then pop the queu in order.
+function 幅優先探索(v) Q ← empty Queue v: vector of managing if visited v: visited v is added to Q while(Q is not empty) do v is taken from Q v is processed for each i (v[i]) do if i is not visited then i is marked as visited i is added to Q
+//2️⃣ Direction arrays (this is just a trick)
+k	dr[k]	dc[k]	move
+0	+1	0	down
+1	−1	0	up
+2	0	+1	right
+3	0	−1	left
+So when we loop k = 0..3, we are trying: down, up, right, left
+
+
