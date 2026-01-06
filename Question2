@@ -150,8 +150,10 @@ for (int r = 0; r < H; r++) {
     }
 }
 
-// dist[r][c] = minimum steps from S to (r,c), -1 means unvisited
+// dist[r][c] = minimum steps from S to (r,c), -1 means unvisited //
 // H rows, W columns, all elements initialized to -1.  vector<vector<int>> dist(H, vector<int>(W, -1));//
+//💡To mark each stepped cell, we have to create a NEW vector<vector> grid//
+
 vector<vector<int>> dist(H, vector<int>(W, -1));
 queue<pair<int,int>> q;
 
