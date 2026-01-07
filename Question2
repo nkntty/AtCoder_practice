@@ -55,7 +55,7 @@ W0 W1 ... W(N-1)
 Constraints: 1 ≤ N ≤ 2e5, 1 ≤ D ≤ N, 1 ≤ Wi ≤ 1e9
 Output: minimum C
 
-❌5) Graph BFS (ABC-C)
+❌5) Graph BFS(breadth first search)
 Shortest Path in Grid
 
 Given an H×W grid of . and #, find the shortest path length from S to G moving 4-directionally. Output -1 if unreachable.
