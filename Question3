@@ -151,6 +151,16 @@ G=(V,E), V=(v1, v2, ….vn), E=(v1, v2, …. vm)
 グラフGの各辺e=(vi, vj) について、向きを考えずに (vi, vj)と(vj, vi) とを同一視するとき、Gを無向グラフ (undirected graph) といい、 それらを区別するとき、Gを有向グラフ (directed graph) といいます。
 vi, vjは変eの端点(end)
 
+The only new idea in graph DFS is:
+“Mark visited so I don’t come back forever.”
+
+| Concept          | Tree (BST)             | Graph           |
+| ---------------- | ---------------------- | --------------- |
+| Structure        | No cycles              | May have cycles |
+| DFS needed       | Yes                    | Yes             |
+| `visited` needed | ❌ No                   | ✅ Yes           |
+| Why              | Tree has unique parent | Graph can loop  |
+
 
 
 #include <iostream>
