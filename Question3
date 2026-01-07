@@ -8,8 +8,18 @@ There are N items, weighing w[i]. Within the capacity of W, find the maximum val
 //Q3 累積和 (Prefix Sum)//
 
 
-
-
+Input
+___________
+5
+2 4 1 3 5
+3
+____________
+Output
+____________
+7
+8
+9
+Maximum sum of subsequence is:9
 
 
 ________________________________________________________________________________________________________________________________________________
@@ -80,3 +90,32 @@ j → how much time you have available   //
 ________________________________________________________________________________________________________________________________________________
 //Q3 //
 💡Key Idea: Prefix sum is effective when THE NUMBER OF ELEMENTS TO SUM is given.
+
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int main(){
+  int N;
+  cin>>N;
+  vector<int>a(N);
+  for(int i=0; i<N; ++i){
+    cin>>a[i];
+  }
+  vector<int>S(N+1, 0);
+  for(int i=0; i<N; ++i){
+    S[i+1]=S[i]+a[i];
+  }
+  int length;
+  cin>>length;
+  int Max=INT_MIN;
+  for(int left=0; left<N-length+1; left++){
+      int right=length+left-1;
+      int ans=S[right+1]-S[left];
+      cout<<ans<<endl;
+      Max=max(Max,ans);
+  }
+
+cout<<"Maximum sum of subsequence is:"<<Max<<endl;
+  return 0;
+}
