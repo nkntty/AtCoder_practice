@@ -6,7 +6,7 @@ There are N items, weighing w[i]. Within the capacity of W, find the maximum val
 //Q2 Forward DP//
 
 //Q3 累積和 (Prefix Sum)//
-
+Input number of sequence N, enter each element from a[0] to a[N-1], then define the length of sequence so that we can get the maximum value of sums with the length.
 
 Input
 ___________
