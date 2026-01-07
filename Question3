@@ -34,6 +34,9 @@ aM bM
 ______
 
 
+//Q5//
+Given N distinct integers, print all permutations in lexicographical order.
+
 
 ________________________________________________________________________________________________________________________________________________
 //Q1//
@@ -199,3 +202,31 @@ int main() {
 }
 ________________________________________________________________________________________________________________________________________________
 //Q5 //
+
+Very common pitfalls of next_permitation()
+1:Not sorting first → you miss permutations
+2:Forgetting it changes the array
+3:Using it for large N (N! grows fast)
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int N;
+    cin >> N;
+    vector<int> a(N);
+
+    for (int i = 0; i < N; ++i) cin >> a[i];
+
+    sort(a.begin(), a.end());
+
+    do {
+        for (int x : a) cout << x << " ";
+        cout << "\n";
+    } while (next_permutation(a.begin(), a.end()));
+
+    return 0;
+}
+
