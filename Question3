@@ -93,6 +93,8 @@ ________________________________________________________________________________
 
 #include<iostream>
 #include<vector>
+#include<algorithm>
+#include <climits>
 using namespace std;
 
 int main(){
@@ -108,6 +110,10 @@ int main(){
   }
   int length;
   cin>>length;
+if (length <= 0 || length > N) {
+        cout << "Invalid length\n";
+        return 0;
+    }
   int Max=INT_MIN;
   for(int left=0; left<N-length+1; left++){
       int right=length+left-1;
