@@ -23,6 +23,15 @@ Maximum sum of subsequence is:9
 
 
 //Q4 DFS(deep first search)//
+you have N end points and M paths graph. Tell if you can reach from point 0 to point N-1.
+Input
+______
+N M
+a1 b1
+a2 b2
+...
+aM bM
+______
 
 
 
@@ -141,3 +150,42 @@ DFS は「全部調べる」系の問題で最初に疑う
 G=(V,E), V=(v1, v2, ….vn), E=(v1, v2, …. vm)
 グラフGの各辺e=(vi, vj) について、向きを考えずに (vi, vj)と(vj, vi) とを同一視するとき、Gを無向グラフ (undirected graph) といい、 それらを区別するとき、Gを有向グラフ (directed graph) といいます。
 vi, vjは変eの端点(end)
+
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void dfs(int v, const vector<vector<int>>& graph, vector<bool>& visited) {
+    visited[v] = true;
+    for (int u : graph[v]) {
+        if (!visited[u]) {
+            dfs(u, graph, visited);
+        }
+    }
+}
+
+int main() {
+    int N, M;
+    cin >> N >> M;
+
+    vector<vector<int>> graph(N);
+    vector<bool> visited(N, false);
+
+    for (int i = 0; i < M; ++i) {
+        int a, b;
+        cin >> a >> b;
+        graph[a].push_back(b);
+        graph[b].push_back(a);
+    }
+
+    dfs(0, graph, visited);
+
+    if (visited[N - 1]) cout << "Yes\n";
+    else cout << "No\n";
+
+    return 0;
+}
+________________________________________________________________________________________________________________________________________________
+//Q5 //
