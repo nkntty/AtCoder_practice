@@ -73,6 +73,131 @@ Output: distance as an integer
 
 
 
+________________________________________________________________________________________________________________________________________________________________________________
+//model answer of (2)//
+#include <bits/stdc++.h> using namespace std;
+int main() { ios::sync_with_stdio(false); cin.tie(nullptr);
+int N;
+long long K;
+cin >> N >> K;
+
+vector<long long> A(N);
+for (int i = 0; i < N; i++) cin >> A[i];
+
+long long sum = 0;
+int ans = INT_MAX;
+int r = 0;
+
+for (int l = 0; l < N; l++) {
+    // Expand r until sum >= K or r reaches N
+   // for each l roop, the r inside the while roop is saved, r being fowarded
+    while (r < N && sum < K) {
+        sum += A[r];
+        r++;
+    }
+
+    // If we reached sum >= K, update answer
+    if (sum >= K) {
+        ans = min(ans, r - l);       //まずjだけを動かして条件を満たした時のカウントを先に行う、その後iを動かして最適化をする
+    }
+
+    // Move left forward (remove A[l] from window)
+    sum -= A[l];
+}
+
+if (ans == INT_MAX) cout << -1 << "\n";
+else cout << ans << "\n";
+
+}
+The key is: the inner loop does not restart from scratch each time. =>Thats why its better than O(N^2) Crucial difference
+r is declared outside the for
+r never goes backward
+r only increases
+
+________________________________________________________________________________________________________________________________________________________________________________
+//model answer of (3)//
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+ios::sync_with_stdio(false);
+cin.tie(nullptr);
+
+int X, A, B, C;
+cin >> X >> A >> B >> C;
+
+int ans = INT_MAX;
+
+for (int a = 0; a * A <= X; a++) {
+    for (int b = 0; a * A + b * B <= X; b++) {
+        int rest = X - a * A - b * B;
+        if (rest % C == 0) {
+            int c = rest / C;
+            ans = min(ans, a + b + c);
+        }
+    }
+}
+
+if (ans == INT_MAX) cout << -1 << "\n";
+else cout << ans << "\n";
+}
+
+#usually thought is “Always take as many large coins as possible”: called "Greedy algorithm"
+BUT... This sometimes fails.
+Counterexample
+X = 10
+A = 6, B = 4, C = 1
+
+Greedy (take 6 first): 6 + 1 + 1 + 1 + 1 = 10 → 5 coins
+
+But optimal is: 4 + 4 + 1 + 1 = 10 → 4 coins
+
+So pure greedy is not safe.
+That means:
+❌ You cannot just sort coins descending and greedily take them.
+
+2️⃣ Correct approach for this problem
+Because: X ≤ 10^6
+
+You only have 3 coin types
+The intended solution is brute force on two coins + check the third.
+
+This is O(X / max(A,B,C)), which is fast enough.
+
+3️⃣ Key idea (important)
+
+We try all possible counts of coin A and B, and see if the remainder can be filled with coin C.
+
+Mathematically:
+
+𝑎𝐴+𝑏𝐵≤𝑋
+
+(𝑋−𝑎𝐴−𝑏𝐵)%𝐶==0
+(X−aA−bB)%C==0
+
+Then:
+𝑐=(X−aA−bB)/C
+
+Minimize: 𝑎+𝑏+𝑐
+
+6️⃣ Mental takeaway (very important)
+
+When you have few coin types and a bounded sum,
+brute force over counts beats greedy.
+
+This pattern appears a lot in AtCoder.
+
+When X (or N) is big, you usually need O(N) or O(N log N).
+
+But if one dimension is big and another dimension is tiny (here: only 3 coin types), you can often “spend” time on the small dimension by brute forcing counts.
+
+A good rule of thumb you can use in contests:
+
+Brute force counts when:
+
+number of types is small (2–3),
+
+and your loops are bounded by X / coin_value, not by X itself.
 
 
 
