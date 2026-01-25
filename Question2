@@ -75,7 +75,9 @@ Output: distance as an integer
 
 ________________________________________________________________________________________________________________________________________________________________________________
 //model answer of (2)//
-#include <bits/stdc++.h> using namespace std;
+#include<iostream>
+#include <climits>
+using namespace std;
 int main() { ios::sync_with_stdio(false); cin.tie(nullptr);
 int N;
 long long K;
