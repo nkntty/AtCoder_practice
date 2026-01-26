@@ -204,6 +204,13 @@ int main() {
 ________________________________________________________________________________________________________________________________________________
 //Q5 //
 
+Syntax:
+do{
+  cout<<  ;
+}while(next_permutation(a.begin(), a.end());
+
+
+
 Very common pitfalls of next_permitation()
 1:Not sorting first → you miss permutations
 2:Forgetting it changes the array
