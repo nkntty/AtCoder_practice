@@ -54,3 +54,81 @@ Constraints
 
 
 
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+QA
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int N;
+    cin >> N;
+
+    vector<long long> A(N);
+    for (int i = 0; i < N; i++) {
+        cin >> A[i];
+    }
+
+    int count = 0;
+
+    for (int i = 1; i <= N - 2; i++) {
+        if (A[i - 1] < A[i] && A[i] > A[i + 1]) {
+            count++;
+        }
+    }
+
+    cout << count << '\n';
+
+    return 0;
+}
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+QB
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    // 高速入出力の設定
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+
+    vector<int> result;
+    // 最初の要素（i=0）は自動的に条件を満たす
+    result.push_back(0);
+    long long current_max = a[0];
+
+    // 2番目の要素以降をチェック
+    for (int i = 1; i < n; ++i) {
+        if (a[i] > current_max) {
+            current_max = a[i];
+            result.push_back(i);
+        }
+    }
+
+    // 結果を出力
+    for (size_t i = 0; i < result.size(); ++i) {
+        cout << result[i] << (i + 1 == result.size() ? "" : " ");
+    }
+    cout << "\n";
+
+    return 0;
+}
+
