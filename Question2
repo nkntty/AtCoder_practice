@@ -208,50 +208,66 @@ and your loops are bounded by X / coin_value, not by X itself.
 
 
 ________________________________________________________________________________________________________________________________________________________________________________
-//model answer of (4)//
-#include <bits/stdc++.h> using namespace std;
-int main() { ios::sync_with_stdio(false); cin.tie(nullptr);
-int N, D;
-cin >> N >> D;
-vector<long long> W(N);
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<climits> // INT_MAX を使うために必要
 
-long long lo = 0;      // minimum possible capacity (will become max weight)
-long long hi = 0;      // maximum possible capacity (sum of weights)
-for (int i = 0; i < N; i++) {
-    cin >> W[i];
-    lo = max(lo, W[i]);
-    hi += W[i];
-}
+using namespace std;
+
+int main(){
+    int N, D;
+    if (!(cin >> N >> D)) return 0;
+    
+    vector<int> W(N);
+    int high = 0;
+    int low = 0; // 最大値を見つけるため 0 で初期化
+    
+    for(int i = 0; i < N; i++){
+        cin >> W[i]; // 【修正】入力を受け取る
+        high += W[i];
+        low = max(low, W[i]); // 【修正】下限は「要素の最大値」
+    }
 
 //1. ラムダ式の宣言部分 auto can = [&](long long C) -> bool { ... }; auto can: can という名前で関数を定義しています。 [&]: 参照キャプチャ。関数の外側で定義されている変数（N, W, D など）を、関数内部でそのまま使うことを示します。 (long long C): 引数です。ここでは「トラックの最大積載量（容量）」を受け取ります。 -> bool: この関数が true または false を返すことを明示しています。 Summary of Capture Modes []: Capture nothing. [=]: Capture everything by value (makes a copy; original is safe). [&]: Capture everything by reference (efficient, no copying, allows modification). [x, &y]: Specifically capture x by value and y by reference. 特に競技プログラミング（AtCoderなど）では「二分探索の判定関数」を作る際の鉄板のテンプレートです。 最後に、なぜこの書き方が選ばれるのかを整理すると： 引数がスッキリする: W（荷物の配列）や D（制限日数）をいちいち関数の引数に渡さなくて済むので、can(mid) と呼び出すだけで済み、コードが短くなります。 型推論 (auto) が楽: ラムダ式の型はコンパイラしか知らない複雑な型になるため、人間が書かずに auto に任せるのがルールです。 カプセル化: その問題（関数内）だけで使うロジックを外に漏らさずに記述できるため、変数名の衝突などを防げます。 //
-auto can = [&](long long C) -> bool {
-    int days = 1;
-    long long cur = 0;
+    auto can = [&](int C) -> bool {
+        int day = 1;
+        int curr = 0;
+        for(int i = 0; i < N; i++) {
+            // 単体でキャパシティを超える場合は判定関数側では low 設定により発生しないが、安全のため
+            if (W[i] > C) return false; 
+            
+            if (curr + W[i] > C) {
+                day++;
+                curr = W[i]; // 次の日の最初の荷物にする
+                if (day > D) return false;
+            } else {
+                curr += W[i];
+            }
+        }
+        return true;
+    };
 
-    for (int i = 0; i < N; i++) {
-        if (cur + W[i] <= C) {
-            cur += W[i];
+    int left = low;
+    int right = high;
+    
+    while(left < right){ // 【修正】left < right の間まわす
+        int mid = left + (right - left) / 2; // 【修正】オーバーフロー防止の書き方
+        if(can(mid)){
+            right = mid; // mid が可能なら、もっと小さくできるかも
         } else {
-            days++;
-            cur = W[i];
-            if (days > D) return false;
+            left = mid + 1; // mid が無理なら、mid+1 以上が答え
         }
     }
-    return true;
-};
 
-// Binary search for the smallest C such that can(C) is true
-long long left = lo, right = hi;
-while (left < right) {
-    long long mid = left + (right - left) / 2;
-    if (can(mid)) right = mid;
-    else left = mid + 1;    //☑️ Because the current mid is invalid, we should consider mid+1
+    cout << left << endl;
+
+    return 0;
 }
 
-cout << left << "\n";
-return 0;
 
-}
+
+
 Key idea // To search the answer C by binary method, we first set the bool function// If a capacity C works (you can ship within D days), then any larger capacity also works. That “works / doesn’t work” property is monotonic, which is exactly when you use binary search on the answer.
 So we:
 Write can(C) = can we ship with capacity C in ≤ D days? (O(N))
