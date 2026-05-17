@@ -252,7 +252,7 @@ int main(){
     int right = high;
     
     while(left < right){ // 【修正】left < right の間まわす
-        int mid = left + (right - left) / 2; // 【修正】オーバーフロー防止の書き方
+        int mid = left + (right - left) / 2; // 【修正】オーバーフロー防止の書き方( (right-left)<rightだから限界値のrightより大きくならない)
         if(can(mid)){
             right = mid; // mid が可能なら、もっと小さくできるかも
         } else {
