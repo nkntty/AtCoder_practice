@@ -88,9 +88,7 @@ return 0;
 
 //Recall the meaning of dp[i][j] (this matters)
 
-dp[i][j] = the maximum value you can get
-using activities 1..i
-with at most j remaining time
+dp[i][j] = the maximum value you can get using i activities(1..i), with at most j remaining time
 
 So:
 
