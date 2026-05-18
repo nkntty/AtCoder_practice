@@ -29,3 +29,68 @@ Q3. 【融合】DFS × 累積和（バックトラック）
 問題概要：N個の都市があり、都市 L(i)から 都市 R(i) まで走る列車が M本あります。区間[ p(i), q(i) ]に完全に含まれる列車は何本あるか？」というクエリが Q 個与えられるので、高速に処理してください。
 
 ここがポイント：一見すると区間の問題ですが、列車の始点と終点 \((L_i, R_i)\) を 2次元座標上の点 \((X, Y)\) としてプロットすると、クエリは「指定された長方形の領域内にある点の数を数える問題」に変わります。2次元累積和 を使って各クエリを \(O(1)\) で処理します。
+
+
+
+
+
+
+
+
+
+
+____________________________________________________________________________________________________________________________________________________________________________________
+(1)回答
+
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        int N = nums.size();
+        
+        // 1. 0 を -1 に変換する
+        for (int i = 0; i < N; i++) {
+            if (nums[i] == 0) { // 【修正】== を使用
+                nums[i] = -1;
+            }
+        }
+
+        // 2. ハッシュマップで「その累積和が最初に現れたインデックス」を管理
+        // key: 累積和の値, value: 最初に現れたインデックス
+        unordered_map<int, int> first_occurrence;
+        
+        // 【重要】累積和が 0 の初期位置はインデックス -1（配列の直前）とする
+        first_occurrence[0] = -1;
+
+        int current_sum = 0;
+        int max_length = 0;
+
+        // 3. 配列を1周しながら累積和を計算し、最大長さを更新
+        for (int i = 0; i < N; i++) {
+            current_sum += nums[i];
+
+            // すでに同じ累積和が登場しているかチェック
+            if (first_occurrence.count(current_sum)) {
+                // 登場していたら、現在の位置との差（長さ）を計算
+                int length = i - first_occurrence[current_sum];
+                max_length = max(max_length, length);
+            } else {
+                // 初めて登場した累積和なら、インデックスを記録
+                first_occurrence[current_sum] = i;
+            }
+        }
+
+        return max_length;
+    }
+};
+
+
+
+
+
+
+
